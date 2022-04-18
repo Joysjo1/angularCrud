@@ -1,0 +1,90 @@
+<nav class="nav">
+    <button type="button" class="btn btn-primary" (click)="StausData('true')" (click)="openModal(template)">add</button>
+  </nav>
+
+
+  <div class="card">
+    <div class="card-body">
+        <div class="float-right">
+            <label class="text-primary">Search :</label>
+            <input type="text" [(ngModel)]="term">
+        </div>
+       
+        <table class="table table-sm">
+            <thead>
+              <tr>
+                <th scope="col"> <span (click)="sortData('id')"><i class="fa fa-sort"></i></span>
+                  id
+
+                </th>
+                <th scope="col" 
+
+                 ><span (click)="sortData('name')" ><i class="fa fa-sort"></i> </span>
+                 First</th>
+                <th scope="col"> <span (click)="sort('true')" ><i class="fa fa-sort"></i></span>
+                  Last</th>
+                <th scope="col">Handle</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of list | filter:term|orderBy:key:reverse| paginate: { itemsPerPage: 5, currentPage: p }">
+                <th scope="row">{{item.id}}</th>
+                <td>{{item.name}}</td>
+                <td>{{item.color}}</td>
+                <td>
+                    <button  (click)="openModal(template)"  class="btn btn-danger" (click)="StausData('false')" >edit</button>
+                    <button class="btn btn-success ml-2" (click)="openModal(view)" (click)="getUserbyId(item)" >view</button>
+                </td>
+              </tr>
+            </tbody>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls> 
+          </table>
+    </div>
+  </div>
+ 
+
+  <ng-template #template>
+    <div class="modal-header">
+       <h4 class="modal-title pull-left">Modal</h4>
+       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">×</span>
+       </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
+          </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn primary" class="btn btn-primary" *ngIf="statusFlag==='true'">add</button>
+        <button class="btn btn-success" *ngIf="statusFlag==='false'" >update</button>
+       <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+    </div>
+ </ng-template>
+
+
+
+ <ng-template #view>
+    <div class="modal-header">
+       <h4 class="modal-title pull-left">Modal</h4>
+       <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">×</span>
+       </button>
+    </div>
+    <div class="modal-body">
+       <tr>
+           <td>Name :</td>
+           <td>{{Data?.name}}</td>
+       </tr>
+    </div>
+    <div class="modal-footer">
+       <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+    </div>
+ </ng-template>
